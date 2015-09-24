@@ -23,25 +23,25 @@ import javax.sql.DataSource;
  * 
  * @author jlombardo
  */
-public class ConnPoolAuthorDao implements AuthorDaoStrategy {
+public class ConnPoolAuthorDaoTeach implements AuthorDaoStrategyTeach {
 
     private DataSource ds;
-    private DBStrategy db;
+    private DbStrategy db;
 
-    public ConnPoolAuthorDao(DataSource ds, DBStrategy db) {
+    public ConnPoolAuthorDaoTeach(DataSource ds, DbStrategy db) {
         this.ds = ds;
         this.db = db;
     }
 
     @Override
-    public final List<Author> getAllAuthors() throws Exception {
+    public final List<AuthorTeach> getAllAuthors() throws Exception {
         // Grabs a connection from the pool
         db.openConnection(ds);
-        List<Author> records = new ArrayList<>();
+        List<AuthorTeach> records = new ArrayList<>();
 
         List<Map<String, Object>> rawData = db.findAllRecords("author");
         for (Map rawRec : rawData) {
-            Author author = new Author();
+            AuthorTeach author = new AuthorTeach();
             Object obj = rawRec.get("author_id");
             author.setAuthorId(Integer.parseInt(obj.toString()));
 
@@ -110,10 +110,10 @@ public class ConnPoolAuthorDao implements AuthorDaoStrategy {
         Context ctx = new InitialContext();
         DataSource ds = (DataSource) ctx.lookup("jdbc/book");
 
-        AuthorDaoStrategy dao = new ConnPoolAuthorDao(ds, new MySqlDbStrategy());
+        AuthorDaoStrategyTeach dao = new ConnPoolAuthorDaoTeach(ds, new MySqlDb());
 
-        List<Author> authors = dao.getAllAuthors();
-        for (Author a : authors) {
+        List<AuthorTeach> authors = dao.getAllAuthors();
+        for (AuthorTeach a : authors) {
             System.out.println(a);
         }
     }

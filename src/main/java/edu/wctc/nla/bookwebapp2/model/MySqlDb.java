@@ -17,24 +17,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import javax.sql.DataSource;
 
 /**
  *
  * @author Nick
  */
-public class MySqlDb{
+public class MySqlDb implements DbStrategy{
     
     private Connection conn;
     
     
+    @Override
     public void openConnection(String driverClass, String url, String userName, String password) throws Exception{
         Class.forName (driverClass);
 	conn = DriverManager.getConnection(url, userName, password);
     }
+    
+    @Override
+    public final void openConnection(DataSource ds) throws Exception {
+        conn = ds.getConnection();
+    }
+    @Override
     public void closeConnection() throws SQLException{
         conn.close();
     }
     
+    @Override
     public List<Map<String,Object>> findAllRecords(String tableName) throws SQLException {
         
         List<Map<String,Object>> records = new ArrayList<>();
@@ -56,6 +65,7 @@ public class MySqlDb{
         return records;
     }
     
+    @Override
     public void deleteByPrimaryKey(String tableName, String primaryKey, Object primaryKeyValue) throws SQLException {
         
         
@@ -71,6 +81,7 @@ public class MySqlDb{
         
     }
     
+    @Override
     public void deleteByPrimaryKeyPrepareStatement(String tableName, String primaryKey, Object primaryKeyValue) throws SQLException {
         
 
@@ -83,6 +94,7 @@ public class MySqlDb{
         
     }
     
+    @Override
     public void createRecordPrepareStatement(String tableName, List newRecordCols, List newRecordValues) throws SQLException {
         
         Object[] recordColsArray = newRecordCols.toArray();
@@ -104,6 +116,7 @@ public class MySqlDb{
         }
         stmt.executeUpdate();
     }
+    @Override
     public void createRecord(String tableName, List newRecordCols, List newRecordValues) throws SQLException {
         
         Object[] recordColsArray = newRecordCols.toArray();
@@ -122,6 +135,7 @@ public class MySqlDb{
         stmt.executeUpdate(sql);
     }
     
+    @Override
     public void updateByPrimaryKey(String tableName, String primaryKey, Object primaryKeyValue, List updateRecordCols, List updateRecordValues) throws SQLException {
 
         Object[] recordKeyArray = updateRecordCols.toArray();
@@ -140,6 +154,7 @@ public class MySqlDb{
         Statement stmt = conn.createStatement();
         stmt.executeUpdate(sql);
     }
+    @Override
     public void updateByPrimaryKeyPrepareStatement(String tableName, String primaryKey, Object primaryKeyValue, List updateRecordCols, List updateRecordValues) throws SQLException {
 
         Object[] recordKeyArray = updateRecordCols.toArray();
@@ -217,6 +232,10 @@ public class MySqlDb{
         
         db.closeConnection();
     }
+
+    
+
+    
     
     
 }

@@ -1,12 +1,12 @@
 package edu.wctc.nla.bookwebapp2.controller;
 
-import edu.wctc.nla.bookwebapp2.model.Author;
-import edu.wctc.nla.bookwebapp2.model.AuthorDao;
-import edu.wctc.nla.bookwebapp2.model.AuthorDaoStrategy;
-import edu.wctc.nla.bookwebapp2.model.AuthorService;
-import edu.wctc.nla.bookwebapp2.model.ConnPoolAuthorDao;
-import edu.wctc.nla.bookwebapp2.model.DBStrategy;
-import edu.wctc.nla.bookwebapp2.model.MySqlDbStrategy;
+import edu.wctc.nla.bookwebapp2.model.AuthorTeach;
+import edu.wctc.nla.bookwebapp2.model.AuthorDaoteach;
+import edu.wctc.nla.bookwebapp2.model.AuthorDaoStrategyTeach;
+import edu.wctc.nla.bookwebapp2.model.AuthorServiceTeach;
+import edu.wctc.nla.bookwebapp2.model.ConnPoolAuthorDaoTeach;
+import edu.wctc.nla.bookwebapp2.model.DbStrategy;
+import edu.wctc.nla.bookwebapp2.model.MySqlDb;
 import java.io.IOException;
 import java.util.List;
 import javax.naming.Context;
@@ -60,11 +60,11 @@ public class AuthorController extends HttpServlet {
          which is not very efficient. In the future we'll learn how to use
          a connection pool to improve this.
          */
-        DBStrategy db = new MySqlDbStrategy();
-        AuthorDaoStrategy authDao
-                = new AuthorDao(db, "com.mysql.jdbc.Driver",
+        DbStrategy db = new MySqlDb();
+        AuthorDaoStrategyTeach authDao
+                = new AuthorDaoteach(db, "com.mysql.jdbc.Driver",
                         "jdbc:mysql://localhost:3306/book", "root", "admin");
-        AuthorService authService = new AuthorService(authDao);
+        AuthorServiceTeach authService = new AuthorServiceTeach(authDao);
 
         try {
             /*
@@ -80,7 +80,7 @@ public class AuthorController extends HttpServlet {
              Parameter
              */
             if (action.equals(LIST_ACTION)) {
-                List<Author> authors = null;
+                List<AuthorTeach> authors = null;
                 authors = authService.getAllAuthors();
                 request.setAttribute("authors", authors);
                 destination = LIST_PAGE;

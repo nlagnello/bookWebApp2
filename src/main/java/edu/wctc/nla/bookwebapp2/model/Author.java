@@ -1,40 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package edu.wctc.nla.bookwebapp2.model;
 
 import java.util.Date;
-import java.util.Objects;
 
 /**
- * This is a domain object that is used by a DAO to transfer data to/from
- * the database. Note that all methods with parameters should be validated 
- * but this has not yet been done. Also note that the class is marked final,
- * effectively prohibiting sub-classing. We don't want to violate the 
- * OPEN/CLOSED Principle.
- * 
- * @author jlombardo
+ *
+ * @author Nick
  */
-public final class Author {
-    private Integer authorId;
+public class Author {
+    
     private String authorName;
-    private Date dateAdded;
+    private int authorId;
+    private Date dateCreated;
 
-    public Author() {
-    }
-
-    public Author(Integer authorId) {
-        this.authorId = authorId;
-    }
-
-    public Author(Integer authorId, String authorName, Date dateAdded) {
-        this.authorId = authorId;
+    public Author(String authorName, int authorId, Date dateCreated) {
         this.authorName = authorName;
-        this.dateAdded = dateAdded;
+        this.authorId = authorId;
+        this.dateCreated = dateCreated;
     }
 
-    public Integer getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Integer authorId) {
+    public Author(int authorId) {
         this.authorId = authorId;
     }
 
@@ -46,18 +35,26 @@ public final class Author {
         this.authorName = authorName;
     }
 
-    public Date getDateAdded() {
-        return dateAdded;
+    public int getAuthorId() {
+        return authorId;
     }
 
-    public void setDateAdded(Date dateAdded) {
-        this.dateAdded = dateAdded;
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.authorId);
+        hash = 41 * hash + this.authorId;
         return hash;
     }
 
@@ -70,7 +67,7 @@ public final class Author {
             return false;
         }
         final Author other = (Author) obj;
-        if (!Objects.equals(this.authorId, other.authorId)) {
+        if (this.authorId != other.authorId) {
             return false;
         }
         return true;
@@ -78,7 +75,7 @@ public final class Author {
 
     @Override
     public String toString() {
-        return "Author{" + "authorId=" + authorId + ", authorName=" + authorName + ", dateAdded=" + dateAdded + '}';
+        return "Author2{" + "authorName=" + authorName + ", authorId=" + authorId + ", dateCreated=" + dateCreated + '}';
     }
     
     
