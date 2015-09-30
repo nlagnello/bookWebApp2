@@ -37,7 +37,7 @@ public class AuthorController extends HttpServlet {
     private static final String NO_PARAM_ERR_MSG = "No request parameter identified";
     private static final String LIST_PAGE = "/listAuthors.jsp";
     private static final String LIST_ACTION = "list";
-    private static final String ADD_ACTION = "add";
+    private static final String ADD_ACTION = "create";
     private static final String UPDATE_ACTION = "update";
     private static final String DELETE_ACTION = "delete";
     private static final String ACTION_PARAM = "action";
@@ -91,6 +91,7 @@ public class AuthorController extends HttpServlet {
                 destination = LIST_PAGE;
 
             } else if (action.equals(ADD_ACTION)) {
+                System.out.println("test");
                 List<Author> authors = null;
                 String createName = request.getParameter("createName");
                 List<String> keyColumns = new ArrayList();
@@ -104,8 +105,9 @@ public class AuthorController extends HttpServlet {
                 valueColumns.add(createName);
                 keyColumns.add("date_created");
                 valueColumns.add(dateFormat.format(date));
+                System.out.println(valueColumns.toString());
                 authors = authService.createRecordPrepareStatement("author", keyColumns, valueColumns);
-                request.setAttribute("authors",authors);
+                request.setAttribute("authors", authors);
                 destination = LIST_PAGE;
                 // coming soon
             } else if (action.equals(UPDATE_ACTION)) {
