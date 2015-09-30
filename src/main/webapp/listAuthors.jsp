@@ -71,6 +71,7 @@
         <div id="createModal" style='display:none'>
             <div id="modalC" title="Create new Record">
                 <form method="POST" action="AuthorController?action=create">
+<!--                    <label>Author Id:</label><input type="text" name="createId" id="createId" placeholder="Author Id">-->
                 <label>Author Name:</label><input type="text" name="createName" id="createName" placeholder="Author Name">
                 <button type="submit" id="createBtn" name="createBtn">Submit</button>
             </form>
@@ -79,6 +80,7 @@
         <div id="updateModal" style='display:none'>
             <div id="modalU" title="Update by Author Id">
                 <form method="POST" action="AuthorController?action=update">
+                    <label>Author Id:</label><input type="text" name="updateId" id="updateId" placeholder="Author Id">
                 <label>Author Name:</label><input type="text" name="updateName" id="updateName" placeholder="Author Name">
                 <button type="submit" id="updateBtn" name="updateBtn">Submit</button>
             </form>

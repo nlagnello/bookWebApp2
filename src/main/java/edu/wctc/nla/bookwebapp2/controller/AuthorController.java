@@ -8,6 +8,11 @@ import edu.wctc.nla.bookwebapp2.model.ConnPoolAuthorDaoTeach;
 import edu.wctc.nla.bookwebapp2.model.DbStrategy;
 import edu.wctc.nla.bookwebapp2.model.MySqlDb;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -87,19 +92,37 @@ public class AuthorController extends HttpServlet {
 
             } else if (action.equals(ADD_ACTION)) {
                 List<Author> authors = null;
+                String createName = request.getParameter("createName");
+                List<String> keyColumns = new ArrayList();
+                List<String> valueColumns = new ArrayList();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                Date date = new Date();
                 
-                authors = authService.createRecordPrepareStatement(action, authors, authors);
+                //keyColumns.add("author_id");
+                //valueColumns.add("1");
+                keyColumns.add("author_name");
+                valueColumns.add(createName);
+                keyColumns.add("date_created");
+                valueColumns.add(dateFormat.format(date));
+                authors = authService.createRecordPrepareStatement("author", keyColumns, valueColumns);
+                request.setAttribute("authors",authors);
                 destination = LIST_PAGE;
                 // coming soon
             } else if (action.equals(UPDATE_ACTION)) {
                 // coming soon
                 List<Author> authors = null;
-                String updateId = request.getParameter("updateName").toString();
-                authors = authService.updateByPrimaryKeyPrepareStatement("author", "author_id", updateId, authors, authors);
+                String updateId = request.getParameter("updateId");
+                String updateName = request.getParameter("updateName");
+                List<String> keyColumns = new ArrayList();
+                List<String> valueColumns = new ArrayList();
+                keyColumns.add("author_name");
+                valueColumns.add(updateName);
+                authors = authService.updateByPrimaryKeyPrepareStatement("author", "author_id", updateId, keyColumns, valueColumns);
+                request.setAttribute("authors",authors);
                 destination = LIST_PAGE;
             } else if (action.equals(DELETE_ACTION)) {
                 List<Author> authors = null;
-                String authorId = request.getParameter("deleteId").toString();
+                String authorId = request.getParameter("deleteId");
                 authors = authService.deleteByPrimaryKeyPrepareStatement("author", "author_id", authorId);
                 request.setAttribute("authors",authors);
                 destination = LIST_PAGE;
