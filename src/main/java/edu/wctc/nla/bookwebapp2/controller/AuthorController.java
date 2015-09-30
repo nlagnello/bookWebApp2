@@ -1,9 +1,9 @@
 package edu.wctc.nla.bookwebapp2.controller;
 
-import edu.wctc.nla.bookwebapp2.model.AuthorTeach;
-import edu.wctc.nla.bookwebapp2.model.AuthorDaoteach;
+import edu.wctc.nla.bookwebapp2.model.Author;
+import edu.wctc.nla.bookwebapp2.model.AuthorDAO;
 import edu.wctc.nla.bookwebapp2.model.AuthorDaoStrategyTeach;
-import edu.wctc.nla.bookwebapp2.model.AuthorServiceTeach;
+import edu.wctc.nla.bookwebapp2.model.AuthorService;
 import edu.wctc.nla.bookwebapp2.model.ConnPoolAuthorDaoTeach;
 import edu.wctc.nla.bookwebapp2.model.DbStrategy;
 import edu.wctc.nla.bookwebapp2.model.MySqlDb;
@@ -61,10 +61,10 @@ public class AuthorController extends HttpServlet {
          a connection pool to improve this.
          */
         DbStrategy db = new MySqlDb();
-        AuthorDaoStrategyTeach authDao
-                = new AuthorDaoteach(db, "com.mysql.jdbc.Driver",
+        AuthorDAO authDao
+                = new AuthorDAO(db, "com.mysql.jdbc.Driver",
                         "jdbc:mysql://localhost:3306/book", "root", "admin");
-        AuthorServiceTeach authService = new AuthorServiceTeach(authDao);
+        AuthorService authService = new AuthorService(authDao);
 
         try {
             /*
@@ -80,16 +80,28 @@ public class AuthorController extends HttpServlet {
              Parameter
              */
             if (action.equals(LIST_ACTION)) {
-                List<AuthorTeach> authors = null;
+                List<Author> authors = null;
                 authors = authService.getAllAuthors();
                 request.setAttribute("authors", authors);
                 destination = LIST_PAGE;
 
-            } else if (action.equals("ADD_ACTION")) {
+            } else if (action.equals(ADD_ACTION)) {
+                List<Author> authors = null;
+                
+                authors = authService.createRecordPrepareStatement(action, authors, authors);
+                destination = LIST_PAGE;
                 // coming soon
-            } else if (action.equals("UPDATE_ACTION")) {
+            } else if (action.equals(UPDATE_ACTION)) {
                 // coming soon
-            } else if (action.equals("DELETE_ACTION")) {
+                List<Author> authors = null;
+                
+                authors = authService.updateByPrimaryKeyPrepareStatement(action, action, response, authors, authors);
+                destination = LIST_PAGE;
+            } else if (action.equals(DELETE_ACTION)) {
+                List<Author> authors = null;
+                
+                authors = authService.deleteByPrimaryKeyPrepareStatement(action, action, response);
+                destination = LIST_PAGE;
                 // coming soon
             } else {
                 // no param identified in request, must be an error
