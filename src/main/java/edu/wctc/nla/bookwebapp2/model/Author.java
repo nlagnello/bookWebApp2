@@ -13,13 +13,14 @@ import java.util.Date;
  */
 public class Author {
     
-    private String authorName;
     private int authorId;
+    private String authorName;
     private Date dateCreated;
 
-    public Author(String authorName, int authorId, Date dateCreated) {
-        this.authorName = authorName;
+    
+    public Author(int authorId, String authorName,  Date dateCreated) {
         this.authorId = authorId;
+        this.authorName = authorName;
         this.dateCreated = dateCreated;
     }
 
@@ -27,6 +28,9 @@ public class Author {
         this.authorId = authorId;
     }
 
+    public Author(){
+        
+    }
     public String getAuthorName() {
         return authorName;
     }
@@ -75,7 +79,7 @@ public class Author {
 
     @Override
     public String toString() {
-        return "Author2{" + "authorName=" + authorName + ", authorId=" + authorId + ", dateCreated=" + dateCreated + '}';
+        return "Author{" + "authorName=" + authorName + ", authorId=" + authorId + ", dateCreated=" + dateCreated + '}';
     }
     
     
