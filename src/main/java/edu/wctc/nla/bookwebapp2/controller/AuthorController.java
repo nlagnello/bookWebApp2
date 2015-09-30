@@ -94,13 +94,14 @@ public class AuthorController extends HttpServlet {
             } else if (action.equals(UPDATE_ACTION)) {
                 // coming soon
                 List<Author> authors = null;
-                
-                authors = authService.updateByPrimaryKeyPrepareStatement(action, action, response, authors, authors);
+                String updateId = request.getParameter("updateName").toString();
+                authors = authService.updateByPrimaryKeyPrepareStatement("author", "author_id", updateId, authors, authors);
                 destination = LIST_PAGE;
             } else if (action.equals(DELETE_ACTION)) {
                 List<Author> authors = null;
-                
-                authors = authService.deleteByPrimaryKeyPrepareStatement(action, action, response);
+                String authorId = request.getParameter("deleteId").toString();
+                authors = authService.deleteByPrimaryKeyPrepareStatement("author", "author_id", authorId);
+                request.setAttribute("authors",authors);
                 destination = LIST_PAGE;
                 // coming soon
             } else {
